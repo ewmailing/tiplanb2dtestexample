@@ -60,6 +60,18 @@ var redBodyRef = world.addBody(redBlock, {
 	type: "dynamic"
 });
 
+var groundBlock = platino.createSprite({width:550, height:50});
+groundBlock.color(1, 1, 0);
+groundBlock.center = {x:0, y:500}
+// add the block body to the world
+var groundBodyRef = world.addBody(groundBlock, {
+//	density: 12.0,
+	friction: 0.5,
+//	restitution: 0.4,
+	type: "static"
+});
+
+
 	world.start();
 
 });
@@ -150,6 +162,12 @@ var onTouchEnd = function(e) {
     }
 };
 
+var onCollision = function(e)
+{
+	Ti.API.info("onCollision callback: " + e);
+	Ti.API.info("e.phase, e.a, e.b : " + e.phase + " " + e.a + " " + e.b);
+	
+}
 /*
  * Listener function for 'touchmove' events.
  * Before using touch event, call registerForMultiTouch() to enable multi touch support.
@@ -167,6 +185,7 @@ game.addEventListener('touchstart_pointer', onTouchStart); // Called only on And
 game.addEventListener('touchend', onTouchEnd);
 game.addEventListener('touchend_pointer', onTouchEnd); // Called only on Android
 
+world.addEventListener('collision', onCollision)
 // Add your game view
 window.add(game);
 window.open({fullscreen:true, navBarHidden:true});
